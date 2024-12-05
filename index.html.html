@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바이트 수 체크 프로그램</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 150px;
+      font-size: 16px;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    .counter {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>바이트 수 체크 프로그램</h1>
+  <textarea id="textInput" placeholder="텍스트를 입력하세요..."></textarea>
+  <div class="counter">
+    바이트 수: <span id="byteCount">0</span>바이트
+  </div>
+
+  <script>
+    function calculateByteLength(str) {
+      let byteLength = 0;
+      for (let i = 0; i < str.length; i++) {
+        const charCode = str.charCodeAt(i);
+        if (charCode <= 0x7f) {
+          byteLength += 1; // ASCII 문자: 1바이트
+        } else if (charCode <= 0x7ff) {
+          byteLength += 2; // 유니코드 2바이트 문자
+        } else {
+          byteLength += 3; // 유니코드 3바이트 문자 (한글 포함)
+        }
+      }
+      return byteLength;
+    }
+
+    const textInput = document.getElementById('textInput');
+    const byteCount = document.getElementById('byteCount');
+
+    textInput.addEventListener('input', () => {
+      const text = textInput.value;
+      byteCount.textContent = calculateByteLength(text);
+    });
+  </script>
+</body>
+</html>
